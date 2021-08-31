@@ -55,24 +55,36 @@ def handle_movement():
 
   pressed = pygame.key.get_pressed()
 
-  prev_coords = (vars.x, vars.y)
+  up = vars.y - vars.VEL
+  down = vars.y + vars.VEL
+  left = vars.x - vars.VEL
+  right = vars.x + vars.VEL
+
+  x = vars.x
+  y = vars.y
 
   if pressed[pygame.K_UP] or pressed[pygame.K_w]:
-    if vars.VEL < vars.y:
-      vars.y -= vars.VEL
+     y = up 
   if pressed[pygame.K_DOWN] or pressed[pygame.K_s]:
-    if 500 - vars.PLAYER_HEIGHT - vars.VEL > vars.y:
-      vars.y += vars.VEL
+    y = down  
   if pressed[pygame.K_LEFT] or pressed[pygame.K_a]:
-    if vars.VEL < vars.x:
-      vars.x -= vars.VEL
+    x = left 
   if pressed[pygame.K_RIGHT] or pressed[pygame.K_d]:
-    if 500 - vars.PLAYER_WIDTH - vars.VEL > vars.x:
-      vars.x += vars.VEL
-  
-  if vars.BARRIER.colliderect(vars.player):
-    vars.x = prev_coords[0] - vars.VEL
-    vars.y = prev_coords[1] - vars.VEL
+    x = right
+
+  if not vars.BARRIER.colliderect(pygame.Rect(x, y, vars.PLAYER_WIDTH, vars.PLAYER_HEIGHT)):
+    if pressed[pygame.K_UP] or pressed[pygame.K_w]:
+      if vars.VEL < vars.y:
+        vars.y -= vars.VEL
+    if pressed[pygame.K_DOWN] or pressed[pygame.K_s]:
+      if 500 - vars.PLAYER_HEIGHT - vars.VEL > vars.y:
+        vars.y += vars.VEL
+    if pressed[pygame.K_LEFT] or pressed[pygame.K_a]:
+      if vars.VEL < vars.x:
+        vars.x -= vars.VEL
+    if pressed[pygame.K_RIGHT] or pressed[pygame.K_d]:
+      if 500 - vars.PLAYER_WIDTH - vars.VEL > vars.x:
+        vars.x += vars.VEL
   
   vars.player = pygame.Rect(vars.x, vars.y, vars.PLAYER_WIDTH, vars.PLAYER_HEIGHT)
 
